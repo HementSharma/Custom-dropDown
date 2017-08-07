@@ -18,7 +18,7 @@ javascript file we should be able to use this search functionality
             dropdown.dropDown();
 
 
-## Necessary filese 
+## Necessary files
 Necessary filese for including this in your project are main.css, common.js, and myJs.js
 
 ### Contact
