@@ -1,14 +1,13 @@
 /**
  * Created by hementsharma on 30/07/17.
  */
-window.onload = function() {
     var Dropdown = function() {
-
+        var X = common.X;
         this.dropDown = function() {
             /*
              dropdown will contain all dropdown Elements;
              */
-            var dropdown = document.querySelectorAll(".dropdown");
+            var dropdown = X().getElem(".dropdown");
             /*
             bind mothod will bind different actions for dropdown element
              */
@@ -18,26 +17,25 @@ window.onload = function() {
         };
 
         var bindmethod = function(dropdownElement) {
-            var listItems = dropdownElement.querySelectorAll("li");
-            var input = dropdownElement.querySelector("input");
+            var listItems = X().getElem("li");
+           // var input = dropdownElement.querySelector("input");
+            var input = X().getElem("input")[0];
             input.dataset.node = 0;
             input.setAttribute("node", -1);
             /*
             Display the items on click
              */
-            input.addEventListener('click', function() {
+            X([input]).click(function() {
                 unhideList(input, listItems);
             });
-
             /*
              impliment item selection on click
              */
-            for (i = 0; i < listItems.length; i++) {
-                listItems[i].addEventListener('click', function() {
-                    this.parentNode.querySelector("input").value = this.innerHTML;
-                    hideList(input, listItems);
-                });
-            };
+            X(listItems).click(function() {
+                this.parentNode.querySelector("input").value = this.innerHTML;
+                hideList(input, listItems);
+            });
+
             /*
             Impliment Search and keys up and down logic
              */
@@ -124,10 +122,10 @@ window.onload = function() {
                     /*
                         Hide all element except the one containing search string
                     */
-                    var input = this.value;
+                    var input = this.value.toUpperCase();
                     hideList(input, listItems);
                     for (i = 0; i < listItems.length; i++) {
-                        if (listItems[i].innerHTML.indexOf(input) >= 0) {
+                        if (listItems[i].innerHTML.toUpperCase().indexOf(input) >= 0) {
                             unhideList(input, listItems, i);
                         }
                     }
@@ -151,29 +149,21 @@ window.onload = function() {
         */
         var hideList = function(input, listItems, list) {
                 if (arguments.length <= 2) {
-                    for (i = 0; i < listItems.length; i++) {
-                        listItems[i].classList.add("hidden");
-                    }
+                    X(listItems).addClass("hidden");
                 } else {
-                    listItems[list].classList.add("hidden");
-
+                    X([listItems[list]]).addClass("hidden");
                 }
-            }
+            };
             /*
                 below function will Show all elemnts of for listItems if only 2 paramter given else will show only the element number given in the third parameter
             */
 
         var unhideList = function(input, listItems, item) {
             if (arguments.length <= 2) {
-                for (i = 0; i < listItems.length; i++) {
-                    listItems[i].classList.remove("hidden");
-                }
+                X(listItems).removeClass("hidden");
             } else {
-                listItems[item].classList.remove("hidden");
+                X([listItems[item]]).removeClass("hidden");
             }
-        }
-    };
+        };
 
-    var dropdown = new Dropdown();
-    dropdown.dropDown();
-};
+    };
